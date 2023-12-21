@@ -1,8 +1,12 @@
 package com.language.weatherpracticeapp1
 
+import android.annotation.SuppressLint
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import com.language.weatherpracticeapp1.data.WeatherExample
 import com.language.weatherpracticeapp1.databinding.ActivityMainBinding
 import retrofit2.Call
@@ -10,44 +14,80 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Calendar
 
-private lateinit var binding: ActivityMainBinding
+@SuppressLint("StaticFieldLeak")
 const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
-var temperature = binding.tvTemp.toString()
 
 //https://api.openweathermap.org/data/2.5/forecast?q=karachi&appid=e302bff06adce54a80e5318505ca1871&units=metric
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        dateTime()
         fetchWeatherData()
-
     }
-}
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun dateTime(){
+        val dateTime = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        val formattedDate = dateTime.format(formatter)
+        binding.dateTime.text = formattedDate.toString()
+    }
 
 
-private fun fetchWeatherData(){
-    val retrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
-        .build()
-        .create(ApiInterface::class.java)
-    val countryName = binding.countryName.text.toString()
-    val response = retrofit.getWeatherData(countryName,"e302bff06adce54a80e5318505ca1871", "metric")
+    private fun fetchWeatherData() {
+        val retrofit = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .build()
+            .create(ApiInterface::class.java)
+ //       val countryName = binding.countryName.text.toString()
+        val response =
+            retrofit.getWeatherData("Karachi", "e302bff06adce54a80e5318505ca1871", "metric")
 
-    response.enqueue(object : Callback<WeatherExample>{
-        override fun onResponse(call: Call<WeatherExample>, response: Response<WeatherExample>) {
-            val responseBody = response.body()!!
-            temperature = responseBody.list[0].main.temp.toString()
-        }
-
-        override fun onFailure(call: Call<WeatherExample>, t: Throwable) {
-            TODO("Not yet implemented")
-        }
-
-    })
-
+        Log.d("Tag","Api Request URL: ${response.request().url()}")
+        response.enqueue(object : Callback<WeatherExample> {
+            @SuppressLint("SuspiciousIndentation")
+            override fun onResponse(call: Call<WeatherExample>, response: Response<WeatherExample>
+            ) {
+                if (response.isSuccessful){
+                val responseBody = response.body()
+                    if (responseBody != null && responseBody.list.isNotEmpty()){
+                        binding.tvTemp.text = responseBody.list[0].main.temp.toString()
+                        when (responseBody.list[0].weather[0].main) {
+                            "Clouds" -> {
+                                binding.weatherImage.setImageResource(R.drawable.cloudy)
+                            }
+                            "Clear" -> {
+                                binding.weatherImage.setImageResource(R.drawable.night)
+                            }
+                            else -> {
+                                binding.weatherImage.setImageResource(R.mipmap.ic_launcher_round)
+                            }
+                        }
+                    }
+                    else{
+                        Log.e("Tag","Response body is null or empty")
+                    }
+                }
+                    else{
+                        Log.e("Tag","Response not successful: ${response.code()}")
+                }
+            }
+            override fun onFailure(call: Call<WeatherExample>, t: Throwable) {
+                Log.e("Log",t.toString())
+            }
+        })
+    }
 }
