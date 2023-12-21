@@ -14,10 +14,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Calendar
+import java.util.Locale
 
 @SuppressLint("StaticFieldLeak")
 const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         dateTime()
         fetchWeatherData()
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -45,6 +48,23 @@ class MainActivity : AppCompatActivity() {
         binding.dateTime.text = formattedDate.toString()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getTomorrow(){
+        val tomorrow = LocalDate.now().plusDays(1)
+        val dayAfterTomorrow = LocalDate.now().plusDays(2)
+        val dayAfterTomorrow2 = LocalDate.now().plusDays(3)
+
+        val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+            .withLocale(Locale.getDefault())
+
+        val formattedTomorrow = tomorrow.format(formatter)
+        val formattedDayAfterTomorrow = dayAfterTomorrow.format(formatter)
+        val formattedDayAfterTomorrow2 = dayAfterTomorrow2.format(formatter)
+
+        binding.tomorrow1Date.text = formattedTomorrow.toString()
+        binding.tomorrow2Date.text = formattedDayAfterTomorrow.toString()
+        binding.tomorrow3Date.text = formattedDayAfterTomorrow2.toString()
+    }
 
     private fun fetchWeatherData() {
         val retrofit = Retrofit.Builder()
