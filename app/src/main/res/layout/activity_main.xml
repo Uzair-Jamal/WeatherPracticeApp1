@@ -20,7 +20,7 @@
 <!--            android:id="@+id/country_name"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Enter City Name"-->
+<!--            android:hint="Enter City Name:"-->
 <!--            android:background="@android:color/transparent"-->
 <!--            android:inputType="text"-->
 <!--            android:textColorHint="@color/white"-->
@@ -51,7 +51,7 @@
                 android:text=""
                 android:textColor="@color/white"
                 android:fontFamily="casual"
-                android:textSize="50sp"
+                android:textSize="44sp"
                 />
 
             <TextView
@@ -59,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sunny 22/14"
+                android:layout_gravity="center"
                 android:fontFamily="casual"
                 android:textSize="16sp"
                 android:layout_marginLeft="15dp"
@@ -107,15 +108,17 @@
                 android:gravity="center">
 
             <ImageView
+                android:id="@+id/tomorrowIcon1"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_weight="0.5"
                 android:src="@mipmap/ic_launcher_round"
                 />
             <TextView
+                android:id="@+id/tomorrow1_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:text="Monday"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -128,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:text="22/14"
                 android:fontFamily="casual"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 />
@@ -144,15 +147,17 @@
                 android:gravity="center">
 
             <ImageView
+                android:id="@+id/tomorrowIcon2"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_weight="0.5"
                 android:src="@mipmap/ic_launcher_round"
                 />
             <TextView
+                android:id="@+id/tomorrow2_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:text="Monday"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -165,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:text="22/14"
                 android:fontFamily="casual"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 />
@@ -181,15 +186,17 @@
                 android:gravity="center">
 
             <ImageView
+                android:id="@+id/tomorrowIcon3"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_weight="0.5"
                 android:src="@mipmap/ic_launcher_round"
                 />
             <TextView
+                android:id="@+id/tomorrow3_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:text="Monday"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -202,7 +209,7 @@
                 android:layout_height="wrap_content"
                 android:text="22/14"
                 android:fontFamily="casual"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 />
